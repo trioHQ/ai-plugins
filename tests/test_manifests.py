@@ -5,6 +5,7 @@ Moving a file without updating a manifest is silent until a session starts.
 """
 
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -111,6 +112,40 @@ class TestManifests(unittest.TestCase):
         review = data["extensions"]["com.openai"]["review"]["test_cases"]
         self.assertEqual(len(review["positive"]), 5)
         self.assertEqual(len(review["negative"]), 3)
+
+    def test_homepage_is_product_page_not_docs(self):
+        for relative in (
+            ".claude-plugin/plugin.json",
+            ".claude-plugin/marketplace.json",
+            ".codex-plugin/plugin.json",
+        ):
+            with self.subTest(file=relative):
+                data = load(relative)
+                entry = data["plugins"][0] if "plugins" in data else data
+                self.assertEqual(entry["homepage"], "https://trio.com.br/mcp")
+
+    def test_claude_directory_privacy_policy_is_declared(self):
+        # The plugin connects to a remote MCP server, so the Claude
+        # Directory requires a privacy policy in plugin.json and README.
+        url = load(".claude-plugin/plugin.json")["privacyPolicyUrl"]
+        self.assertTrue(url.startswith("https://"))
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("## Privacy", readme)
+        self.assertIn(url, readme)
+
+    def test_readme_has_no_download_and_execute_pattern(self):
+        # The directory scanner flags shell commands that fetch remote
+        # code and run it as an install-time risk.
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        shell_blocks = "\n".join(re.findall(r"```(?:bash|sh)\n(.*?)```", readme, re.S))
+        patterns = [
+            r"(curl|wget)\b[^|\n]*\|\s*(sh|bash)",
+            r"\b(install|add)\b[^\n]*https://github\.com",
+            r"git\s+clone\s+https?://",
+        ]
+        for pattern in patterns:
+            with self.subTest(pattern=pattern):
+                self.assertIsNone(re.search(pattern, shell_blocks))
 
     def test_gemini_commands_exist_for_claude_commands(self):
         for md_file in sorted((REPO_ROOT / "commands").glob("*.md")):

@@ -7,7 +7,8 @@
     "email": "developers@trio.com.br",
     "url": "https://www.trio.com.br"
   },
-  "homepage": "https://docs.trio.com.br/v2/mcp/what-is-trio-mcp",
+  "homepage": "https://trio.com.br/mcp",
+  "privacyPolicyUrl": "https://www.trio.com.br/legal/politica-de-privacidade",
   "repository": "https://github.com/triohq/ai-plugins",
   "license": "MIT",
   "keywords": [

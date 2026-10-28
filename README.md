@@ -1,6 +1,6 @@
 # Trio AI plugin
 
-Official Trio plugin for AI clients. Read balances, statements, Pix payments, receivables and corporate cards from your [Trio](https://www.trio.com.br) corporate account, directly from your AI coding tool.
+Official plugin published by [Trio](https://www.trio.com.br) — Trio's own GitHub organization is [`triohq`](https://github.com/triohq), which owns this repository. Publisher contact: developers@trio.com.br. Read balances, statements, Pix payments, receivables and corporate cards from your Trio corporate account, directly from your AI coding tool.
 
 The plugin installs the [Trio MCP server](https://docs.trio.com.br/v2/mcp/what-is-trio-mcp) (`https://mcp.trio.com.br/mcp`) and six skills that teach your agent Trio's conventions: start from the entity, walk every page, amounts in cents, and never move money. Every tool is read-only. Agents read, analyze and explain. People approve in the [Trio App](https://app.trio.com.br).
 
@@ -59,15 +59,11 @@ codex mcp login trio
 
 ### Gemini CLI
 
-```bash
-gemini extensions install https://github.com/triohq/ai-plugins
-```
+Install this repository as an extension from the [Gemini CLI extensions gallery](https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/index.md) listing for Trio, using the gallery's install flow in your terminal.
 
 ### Antigravity
 
-```bash
-agy plugin install https://github.com/triohq/ai-plugins
-```
+Install the Trio plugin from the Antigravity plugin browser, or add this repository manually in Antigravity's plugin settings.
 
 Then run `/mcp`, select `trio`, and choose **Authenticate**.
 
@@ -77,9 +73,10 @@ Add a custom connector with the server URL `https://mcp.trio.com.br/mcp` and let
 
 ## How to develop
 
+Clone this repository with your usual Git tooling, then point Claude Code at your local checkout:
+
 ```bash
-git clone https://github.com/triohq/ai-plugins
-claude --plugin-dir ./ai-plugins
+claude --plugin-dir /path/to/ai-plugins
 ```
 
 Then run `/mcp` and authenticate. Run the manifest tests with `python3 -m unittest discover -s tests`.
@@ -140,6 +137,10 @@ Skills activate automatically when their description matches your request, so yo
 - Card numbers and CPFs arrive masked. CNPJs and amounts do not.
 
 Full guidance: [Connecting Trio MCP - Security best practices](https://docs.trio.com.br/v2/mcp/connecting).
+
+## Privacy
+
+Trio's [Privacy Policy](https://www.trio.com.br/legal/politica-de-privacidade) covers the Trio MCP server (`https://mcp.trio.com.br/mcp`). The plugin itself collects nothing: it only declares the remote server and skills. After OAuth sign-in, the server reads your organization's balances, statements, payments, receivables and card data under the read-only `mcp:foundation` scope and returns it to the AI client you connected. No tool moves money.
 
 ## Publishing
 

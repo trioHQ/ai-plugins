@@ -34,6 +34,9 @@ mcp-publisher validate       # optional pre-check
 
 - **Claude Code marketplace**: this repo is the marketplace. Users run `claude plugin marketplace add triohq/ai-plugins` and `claude plugin install trio@trio`. No separate submission.
 - **Claude Connectors Directory** (claude.ai Settings > Connectors): submit the remote server at https://claude.ai/directory or through the Anthropic partner submission form. Provide the server URL, the OAuth authorization server `https://app.trio.com.br`, the `mcp:foundation` scope, the privacy policy and support links, and demo credentials for review. This listing is what makes Trio appear as a one-click connector in Claude.
+- **Name/publisher similarity flags (expected)**: the scanner flags `trio` / `triohq` as resembling an existing brand because Trio is the brand. This is Trio's official plugin, not an impersonation — paste into the submission's reviewer notes: "Publisher `triohq` is the official GitHub organization of Trio (https://www.trio.com.br). This repo, the MCP endpoint `mcp.trio.com.br`, the OAuth server `app.trio.com.br` and author contact `developers@trio.com.br` are all under Trio's control. Plugin name `trio` names our own product." If the reviewer still requires separation, prove control from a `trio.com.br` page linking to `github.com/triohq/ai-plugins` rather than renaming the plugin.
+- **Privacy**: `.claude-plugin/plugin.json` declares `privacyPolicyUrl` and the README has a Privacy section linking the same URL. Keep both in sync.
+- **README install commands**: do not add shell commands that fetch and run remote code (for example an extensions/plugin install pointed straight at a GitHub URL) to the README; the directory scanner flags them as install-time risk. Use marketplace/gallery/UI install flows there and keep CLI-from-URL commands in this file only.
 
 ## 3. ChatGPT
 
