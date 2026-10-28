@@ -1,0 +1,20 @@
+{
+  "name": "trio",
+  "interface": {
+    "displayName": "Trio"
+  },
+  "plugins": [
+    {
+      "name": "trio",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/triohq/ai-plugins.git"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

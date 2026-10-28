@@ -1,0 +1,45 @@
+{
+  "name": "trio",
+  "version": "0.1.0",
+  "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Codex",
+  "author": {
+    "name": "Trio",
+    "email": "dev@trio.com.br",
+    "url": "https://www.trio.com.br"
+  },
+  "homepage": "https://docs.trio.com.br/v2/mcp/what-is-trio-mcp",
+  "repository": "https://github.com/triohq/ai-plugins",
+  "license": "MIT",
+  "keywords": [
+    "banking",
+    "pix",
+    "payments",
+    "receivables",
+    "corporate-cards",
+    "cash-flow",
+    "brazil",
+    "fintech"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./codex-mcp.json",
+  "interface": {
+    "displayName": "Trio",
+    "shortDescription": "Balances, statements, Pix payments and corporate cards",
+    "longDescription": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Codex. Every tool is read-only: agents read, analyze and explain, people approve in the Trio App.",
+    "developerName": "Trio",
+    "category": "Productivity",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://www.trio.com.br",
+    "privacyPolicyURL": "https://www.trio.com.br/privacy",
+    "termsOfServiceURL": "https://www.trio.com.br/terms",
+    "defaultPrompt": [
+      "What's my consolidated balance today?",
+      "Which payments over R$ 50 thousand went out this week?",
+      "How much have we spent on the marketing card this month?"
+    ],
+    "brandColor": "#16A34A",
+    "logo": "./assets/logo.svg"
+  }
+}

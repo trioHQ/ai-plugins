@@ -1,0 +1,24 @@
+{
+  "name": "trio",
+  "displayName": "Trio",
+  "version": "0.1.0",
+  "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Cursor",
+  "author": {
+    "name": "Trio",
+    "email": "dev@trio.com.br"
+  },
+  "license": "MIT",
+  "keywords": [
+    "banking",
+    "pix",
+    "payments",
+    "receivables",
+    "corporate-cards",
+    "cash-flow",
+    "brazil",
+    "fintech"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
+}

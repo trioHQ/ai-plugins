@@ -1,0 +1,5 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "trio",
+  "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Antigravity"
+}

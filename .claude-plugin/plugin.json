@@ -1,0 +1,23 @@
+{
+  "name": "trio",
+  "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account through the read-only Trio MCP server.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Trio",
+    "email": "dev@trio.com.br",
+    "url": "https://www.trio.com.br"
+  },
+  "homepage": "https://docs.trio.com.br/v2/mcp/what-is-trio-mcp",
+  "repository": "https://github.com/triohq/ai-plugins",
+  "license": "MIT",
+  "keywords": [
+    "banking",
+    "pix",
+    "payments",
+    "receivables",
+    "corporate-cards",
+    "cash-flow",
+    "brazil",
+    "fintech"
+  ]
+}

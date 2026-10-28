@@ -1,0 +1,6 @@
+description = "Summarize Trio cash flow for a period from the account statement"
+prompt = """
+Use the Trio MCP tools to summarize cash flow for: {{args}}
+
+Find the account with `list_entities` and `list_bank_accounts`, read the whole period with `get_account_statement` page by page, then total inflows and outflows separately and give the net. Format amounts as Brazilian reais and state the exact period used.
+"""

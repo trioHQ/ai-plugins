@@ -1,0 +1,17 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.triohq/trio",
+  "title": "Trio",
+  "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio corporate account. Read-only.",
+  "repository": {
+    "url": "https://github.com/triohq/ai-plugins",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.trio.com.br/mcp"
+    }
+  ]
+}

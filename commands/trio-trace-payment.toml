@@ -1,0 +1,6 @@
+description = "Trace one outgoing Trio payment by external ID, Pix end-to-end ID or payee"
+prompt = """
+Use the Trio MCP tools to trace this payment: {{args}}
+
+Use `search_payment_documents` for an identifier, or `list_payment_documents_by_tax_number` for a CPF or CNPJ, and report the status and every stage in plain language. Format amounts as Brazilian reais.
+"""
