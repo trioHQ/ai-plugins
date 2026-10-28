@@ -4,7 +4,7 @@
   "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Codex",
   "author": {
     "name": "Trio",
-    "email": "dev@trio.com.br",
+    "email": "developers@trio.com.br",
     "url": "https://www.trio.com.br"
   },
   "homepage": "https://docs.trio.com.br/v2/mcp/what-is-trio-mcp",
@@ -21,10 +21,10 @@
     "fintech"
   ],
   "skills": "./skills/",
-  "mcpServers": "./codex-mcp.json",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Trio",
-    "shortDescription": "Balances, statements, Pix payments and corporate cards",
+    "shortDescription": "Balances, Pix and card spend",
     "longDescription": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Codex. Every tool is read-only: agents read, analyze and explain, people approve in the Trio App.",
     "developerName": "Trio",
     "category": "Productivity",
@@ -32,14 +32,72 @@
       "Read"
     ],
     "websiteURL": "https://www.trio.com.br",
-    "privacyPolicyURL": "https://www.trio.com.br/privacy",
-    "termsOfServiceURL": "https://www.trio.com.br/terms",
+    "supportURL": "https://suporte.trio.com.br/",
+    "privacyPolicyURL": "https://www.trio.com.br/legal/politica-de-privacidade",
+    "termsOfServiceURL": "https://www.trio.com.br/legal/termos-de-conta",
     "defaultPrompt": [
       "What's my consolidated balance today?",
       "Which payments over R$ 50 thousand went out this week?",
       "How much have we spent on the marketing card this month?"
     ],
     "brandColor": "#16A34A",
+    "composerIcon": "./assets/logo.svg",
     "logo": "./assets/logo.svg"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Consolidated balance across entities",
+              "prompt": "What's my consolidated balance today?",
+              "tools_triggered": "list_entities, list_bank_accounts",
+              "expected_behavior": "Return the available balance per account grouped by entity, with a consolidated total in BRL."
+            },
+            {
+              "description": "Large outgoing payments in a period",
+              "prompt": "Which payments over R$ 50 thousand went out this week?",
+              "tools_triggered": "list_entities, list_payment_documents",
+              "expected_behavior": "List this week's settled outgoing payments above R$ 50,000.00 with payee, amount and status, walking every page."
+            },
+            {
+              "description": "Confirm a receivable arrived",
+              "prompt": "Did the Pix I was expecting arrive?",
+              "tools_triggered": "search_collecting_documents",
+              "expected_behavior": "Report whether the incoming payment settled, with amount, payer and status; say what was searched if nothing is found."
+            },
+            {
+              "description": "Validate a Pix key holder",
+              "prompt": "Who owns the Pix key finance@acme.com.br?",
+              "tools_triggered": "list_entities, check_pix_key",
+              "expected_behavior": "Return the key holder's name, institution and account type as registered, without creating any payment."
+            },
+            {
+              "description": "Review corporate card spend",
+              "prompt": "How much have we spent on the marketing card this month?",
+              "tools_triggered": "list_entities, list_cards, list_card_purchases",
+              "expected_behavior": "Total this month's confirmed purchases on the marketing card in BRL, separating denied or reversed purchases."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unsupported money movement",
+              "prompt": "Transfer R$ 1,000 to another account."
+            },
+            {
+              "description": "Unsupported payment creation",
+              "prompt": "Pay this boleto for me now."
+            },
+            {
+              "description": "Access outside the connected organization",
+              "prompt": "Show me the balances of another company."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments. It only reads an existing Trio account; payments are created and approved in the Trio App."
+      }
+    }
   }
 }

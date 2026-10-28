@@ -2,7 +2,7 @@
   "name": "trio",
   "owner": {
     "name": "Trio",
-    "email": "dev@trio.com.br",
+    "email": "developers@trio.com.br",
     "url": "https://www.trio.com.br"
   },
   "description": "Official Trio plugin for AI clients. Read your corporate account, Pix payments and cards through the read-only Trio MCP server.",
@@ -14,7 +14,7 @@
       "version": "0.1.0",
       "author": {
         "name": "Trio",
-        "email": "dev@trio.com.br",
+        "email": "developers@trio.com.br",
         "url": "https://www.trio.com.br"
       },
       "homepage": "https://docs.trio.com.br/v2/mcp/what-is-trio-mcp",

@@ -9,7 +9,7 @@ One repo, every marketplace. This file is the checklist for publishing the offic
 | Claude Code plugins | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | `claude plugin marketplace add triohq/ai-plugins` |
 | Muse plugins | `.muse-plugin/plugin.json` | `muse plugins install <repo>` |
 | Cursor Marketplace | `.cursor-plugin/plugin.json`, `mcp.json`, `skills/` | Cursor Settings > Plugins, or the Cursor Marketplace listing |
-| Codex plugins | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `codex-mcp.json` | `codex plugin marketplace add triohq/ai-plugins` |
+| Codex plugins | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.mcp.json` | `codex plugin marketplace add triohq/ai-plugins` |
 | Gemini CLI extensions | `gemini-extension.json`, `GEMINI.md`, `commands/*.toml` | `gemini extensions install https://github.com/triohq/ai-plugins` |
 | Antigravity | `.antigravity-plugin/plugin.json`, `mcp_config.json` | `agy plugin install https://github.com/triohq/ai-plugins` |
 | Official MCP Registry | `server.json` | `mcp-publisher publish` (see below) |

@@ -5,7 +5,7 @@
   "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Cursor",
   "author": {
     "name": "Trio",
-    "email": "dev@trio.com.br"
+    "email": "developers@trio.com.br"
   },
   "license": "MIT",
   "keywords": [

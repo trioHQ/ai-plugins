@@ -23,7 +23,6 @@ JSON_FILES = [
     "server.json",
     "mcp.json",
     ".mcp.json",
-    "codex-mcp.json",
     "mcp_config.json",
 ]
 
@@ -88,6 +87,30 @@ class TestManifests(unittest.TestCase):
                 self.assertTrue((REPO_ROOT / data["skills"].rstrip("/")).is_dir())
                 mcp_file = data["mcpServers"].lstrip("./")
                 self.assertTrue((REPO_ROOT / mcp_file).is_file())
+
+    def test_codex_meets_openai_submission_minimum(self):
+        # Limits from developers.openai.com/plugins/deploy/submission (Codex format).
+        data = load(".codex-plugin/plugin.json")
+        interface = data["interface"]
+        self.assertLessEqual(len(data["name"]), 64)
+        self.assertLessEqual(len(interface["displayName"]), 30)
+        self.assertLessEqual(len(interface["shortDescription"]), 30)
+        self.assertLessEqual(len(interface["longDescription"]), 4000)
+        self.assertLessEqual(len(interface["developerName"]), 80)
+        self.assertTrue(interface["capabilities"])
+        for url_field in ("websiteURL", "supportURL", "privacyPolicyURL", "termsOfServiceURL"):
+            self.assertTrue(interface[url_field].startswith("https://"), url_field)
+        self.assertLessEqual(len(interface["defaultPrompt"]), 3)
+        for prompt in interface["defaultPrompt"]:
+            self.assertLessEqual(len(prompt), 128)
+        self.assertEqual(data["mcpServers"], "./.mcp.json")
+        for icon_field in ("logo", "composerIcon"):
+            self.assertTrue((REPO_ROOT / interface[icon_field]).is_file(), icon_field)
+        mcp = load(".mcp.json")["mcpServers"]["trio"]
+        self.assertEqual(mcp["extensions"]["com.openai"]["auth"]["type"], "oauth")
+        review = data["extensions"]["com.openai"]["review"]["test_cases"]
+        self.assertEqual(len(review["positive"]), 5)
+        self.assertEqual(len(review["negative"]), 3)
 
     def test_gemini_commands_exist_for_claude_commands(self):
         for md_file in sorted((REPO_ROOT / "commands").glob("*.md")):
