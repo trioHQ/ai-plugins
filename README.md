@@ -76,7 +76,7 @@ Add a custom connector with the server URL `https://mcp.trio.com.br/mcp` and let
 Clone this repository with your usual Git tooling, then point Claude Code at your local checkout:
 
 ```bash
-claude --plugin-dir /path/to/ai-plugins
+claude --plugin-dir /path/to/ai-plugins/plugins/trio
 ```
 
 Then run `/mcp` and authenticate. Run the manifest tests with `python3 -m unittest discover -s tests`.
@@ -144,7 +144,7 @@ Trio's [Privacy Policy](https://www.trio.com.br/legal/politica-de-privacidade) c
 
 ## Publishing
 
-This repo is structured so one source tree feeds every marketplace: Claude Code and Codex plugin marketplaces, the Cursor Marketplace, the Gemini extensions gallery, Antigravity and Grok, the official MCP Registry, and the MCP directories (Smithery, Glama, mcp.so, PulseMCP). See [PUBLISHING.md](PUBLISHING.md) for the per-marketplace checklist.
+The Claude Code plugin lives in [`plugins/trio`](plugins/trio) so the Claude Directory reviews only Claude files. Its `skills/` is a copy of the root `skills/`, which the tests keep identical. The rest of this repo is structured so one source tree feeds every marketplace: Claude Code and Codex plugin marketplaces, the Cursor Marketplace, the Gemini extensions gallery, Antigravity and Grok, the official MCP Registry, and the MCP directories (Smithery, Glama, mcp.so, PulseMCP). See [PUBLISHING.md](PUBLISHING.md) for the per-marketplace checklist.
 
 ## Documentation
 
