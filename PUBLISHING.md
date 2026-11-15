@@ -6,7 +6,7 @@ One repo, every marketplace. This file is the checklist for publishing the offic
 
 | Marketplace | File(s) | How it is consumed |
 | - | - | - |
-| Claude Code plugins | `.claude-plugin/marketplace.json` (root), `plugins/trio/` (the plugin) | `claude plugin marketplace add triohq/ai-plugins` |
+| Claude Code plugins | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` | `claude plugin marketplace add triohq/ai-plugins` |
 | Muse plugins | `.muse-plugin/plugin.json` | `muse plugins install <repo>` |
 | Cursor Marketplace | `.cursor-plugin/plugin.json`, `mcp.json`, `skills/` | Cursor Settings > Plugins, or the Cursor Marketplace listing |
 | Codex plugins | `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.mcp.json` | `codex plugin marketplace add triohq/ai-plugins` |
@@ -35,9 +35,7 @@ mcp-publisher validate       # optional pre-check
 - **Claude Code marketplace**: this repo is the marketplace. Users run `claude plugin marketplace add triohq/ai-plugins` and `claude plugin install trio@trio`. No separate submission.
 - **Claude Connectors Directory** (claude.ai Settings > Connectors): submit the remote server at https://claude.ai/directory or through the Anthropic partner submission form. Provide the server URL, the OAuth authorization server `https://app.trio.com.br`, the `mcp:foundation` scope, the privacy policy and support links, and demo credentials for review. This listing is what makes Trio appear as a one-click connector in Claude.
 - **Name/publisher similarity flags (expected)**: the scanner flags `trio` / `triohq` as resembling an existing brand because Trio is the brand. This is Trio's official plugin, not an impersonation — paste into the submission's reviewer notes: "Publisher `triohq` is the official GitHub organization of Trio (https://www.trio.com.br). This repo, the MCP endpoint `mcp.trio.com.br`, the OAuth server `app.trio.com.br` and author contact `developers@trio.com.br` are all under Trio's control. Plugin name `trio` names our own product." If the reviewer still requires separation, prove control from a `trio.com.br` page linking to `github.com/triohq/ai-plugins` rather than renaming the plugin.
-- **Submit `plugins/trio`, not the repo root.** The Directory refuses, from unverified organizations, any file that is not Markdown, text, JSON, YAML or a PNG/JPEG/GIF/WebP/ICO image, and any `.mcp.json` field Claude Code does not read. The root holds files other platforms need (`commands/*.toml` for Gemini, `assets/logo.svg` for Cursor and Codex, Codex's `extensions` in `.mcp.json`, Python tests), so the Claude plugin lives in its own folder with a Claude-only `.mcp.json` (`type` and `url`).
-- **Skills are copied** into `plugins/trio/skills/`. Edit the root `skills/` and copy it over with `rm -rf plugins/trio/skills && cp -R skills plugins/trio/skills`; the tests fail if the two drift. Slash commands for Claude and Muse live only in `plugins/trio/commands/`.
-- **Privacy**: `plugins/trio/.claude-plugin/plugin.json` declares `privacyPolicyUrl` and both READMEs have a Privacy section linking the same URL. Keep them in sync.
+- **Privacy**: `.claude-plugin/plugin.json` declares `privacyPolicyUrl` and the README has a Privacy section linking the same URL. Keep both in sync.
 - **README install commands**: do not add shell commands that fetch and run remote code (for example an extensions/plugin install pointed straight at a GitHub URL) to the README; the directory scanner flags them as install-time risk. Use marketplace/gallery/UI install flows there and keep CLI-from-URL commands in this file only.
 
 ## 3. ChatGPT
@@ -75,7 +73,6 @@ No listing needed. Users add the `.mcp.json` entry to their workspace or user MC
 - [ ] `python3 -m unittest discover -s tests` passes (manifests parse, referenced paths exist, MCP URL is consistent everywhere).
 - [ ] `muse skills validate` passes for every directory in `skills/`.
 - [ ] `muse plugins validate .` passes.
-- [ ] `claude plugin validate plugins/trio` and `claude plugin validate .` pass.
-- [ ] Version bumped in `plugins/trio/.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.muse-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`, `gemini-extension.json` and `server.json`.
+- [ ] Version bumped in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.muse-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `.codex-plugin/plugin.json`, `gemini-extension.json` and `server.json`.
 - [ ] CHANGELOG.md entry added.
 - [ ] After merging, re-publish `server.json` to the MCP Registry if the version or URL changed.

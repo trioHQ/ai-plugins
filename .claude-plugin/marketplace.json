@@ -9,9 +9,9 @@
   "plugins": [
     {
       "name": "trio",
-      "source": "./plugins/trio",
+      "source": "./",
       "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account through the read-only Trio MCP server.",
-      "version": "0.1.1",
+      "version": "0.1.0",
       "author": {
         "name": "Trio",
         "email": "developers@trio.com.br",
