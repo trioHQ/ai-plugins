@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "trio",
   "displayName": "Trio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account through the read-only Trio MCP server.",
   "compat": {
     "source": "native",
@@ -18,9 +18,9 @@
       { "id": "validating-pix-keys", "path": "skills/validating-pix-keys/SKILL.md", "enabledDefault": true }
     ],
     "commands": [
-      { "id": "trio-balance", "path": "commands/trio-balance.md", "enabledDefault": true },
-      { "id": "trio-cash-flow", "path": "commands/trio-cash-flow.md", "enabledDefault": true },
-      { "id": "trio-trace-payment", "path": "commands/trio-trace-payment.md", "enabledDefault": true }
+      { "id": "trio-balance", "path": "plugins/trio/commands/trio-balance.md", "enabledDefault": true },
+      { "id": "trio-cash-flow", "path": "plugins/trio/commands/trio-cash-flow.md", "enabledDefault": true },
+      { "id": "trio-trace-payment", "path": "plugins/trio/commands/trio-trace-payment.md", "enabledDefault": true }
     ],
     "hooks": [],
     "mcpServers": [

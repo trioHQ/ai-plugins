@@ -1,7 +1,7 @@
 {
   "name": "trio",
   "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account through the read-only Trio MCP server.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Trio",
     "email": "developers@trio.com.br",

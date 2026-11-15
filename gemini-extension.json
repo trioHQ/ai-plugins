@@ -1,6 +1,6 @@
 {
   "name": "trio",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read balances, statements, Pix payments, receivables and corporate cards from your Trio account directly from Gemini CLI",
   "mcpServers": {
     "trio": {

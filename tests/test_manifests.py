@@ -10,11 +10,16 @@ import unittest
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+# The Claude plugin lives in its own folder because the Claude Directory
+# rejects files the other platforms need at the root (.toml, .svg, Codex
+# fields in .mcp.json). This folder is what gets submitted to the Directory.
+CLAUDE_PLUGIN = "plugins/trio"
 MCP_URL = "https://mcp.trio.com.br/mcp"
 
 JSON_FILES = [
     ".muse-plugin/plugin.json",
-    ".claude-plugin/plugin.json",
+    f"{CLAUDE_PLUGIN}/.claude-plugin/plugin.json",
+    f"{CLAUDE_PLUGIN}/.mcp.json",
     ".claude-plugin/marketplace.json",
     ".cursor-plugin/plugin.json",
     ".codex-plugin/plugin.json",
@@ -47,7 +52,7 @@ class TestManifests(unittest.TestCase):
 
     def test_versions_are_in_sync(self):
         versions = {
-            load(".claude-plugin/plugin.json")["version"],
+            load(f"{CLAUDE_PLUGIN}/.claude-plugin/plugin.json")["version"],
             load(".claude-plugin/marketplace.json")["plugins"][0]["version"],
             load(".muse-plugin/plugin.json")["version"],
             load(".cursor-plugin/plugin.json")["version"],
@@ -115,7 +120,7 @@ class TestManifests(unittest.TestCase):
 
     def test_homepage_is_product_page_not_docs(self):
         for relative in (
-            ".claude-plugin/plugin.json",
+            f"{CLAUDE_PLUGIN}/.claude-plugin/plugin.json",
             ".claude-plugin/marketplace.json",
             ".codex-plugin/plugin.json",
         ):
@@ -127,16 +132,19 @@ class TestManifests(unittest.TestCase):
     def test_claude_directory_privacy_policy_is_declared(self):
         # The plugin connects to a remote MCP server, so the Claude
         # Directory requires a privacy policy in plugin.json and README.
-        url = load(".claude-plugin/plugin.json")["privacyPolicyUrl"]
+        url = load(f"{CLAUDE_PLUGIN}/.claude-plugin/plugin.json")["privacyPolicyUrl"]
         self.assertTrue(url.startswith("https://"))
-        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("## Privacy", readme)
-        self.assertIn(url, readme)
+        for readme_path in ("README.md", f"{CLAUDE_PLUGIN}/README.md"):
+            with self.subTest(readme=readme_path):
+                readme = (REPO_ROOT / readme_path).read_text(encoding="utf-8")
+                self.assertIn("## Privacy", readme)
+                self.assertIn(url, readme)
 
     def test_readme_has_no_download_and_execute_pattern(self):
         # The directory scanner flags shell commands that fetch remote
         # code and run it as an install-time risk.
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        readme += (REPO_ROOT / CLAUDE_PLUGIN / "README.md").read_text(encoding="utf-8")
         shell_blocks = "\n".join(re.findall(r"```(?:bash|sh)\n(.*?)```", readme, re.S))
         patterns = [
             r"(curl|wget)\b[^|\n]*\|\s*(sh|bash)",
@@ -148,9 +156,58 @@ class TestManifests(unittest.TestCase):
                 self.assertIsNone(re.search(pattern, shell_blocks))
 
     def test_gemini_commands_exist_for_claude_commands(self):
-        for md_file in sorted((REPO_ROOT / "commands").glob("*.md")):
+        claude_commands = sorted((REPO_ROOT / CLAUDE_PLUGIN / "commands").glob("*.md"))
+        self.assertTrue(claude_commands)
+        for md_file in claude_commands:
             with self.subTest(command=md_file.stem):
                 self.assertTrue((REPO_ROOT / "commands" / f"{md_file.stem}.toml").is_file())
+
+    def test_marketplace_points_at_claude_plugin_folder(self):
+        source = load(".claude-plugin/marketplace.json")["plugins"][0]["source"]
+        self.assertEqual(source, f"./{CLAUDE_PLUGIN}")
+
+    def test_claude_plugin_skills_match_root_skills(self):
+        # Cursor, Codex, Muse, Gemini and Antigravity read skills/ at the
+        # root; the Claude plugin ships its own copy. Keep them identical.
+        root_skills = REPO_ROOT / "skills"
+        plugin_skills = REPO_ROOT / CLAUDE_PLUGIN / "skills"
+        root_files = sorted(p.relative_to(root_skills) for p in root_skills.rglob("*") if p.is_file())
+        plugin_files = sorted(p.relative_to(plugin_skills) for p in plugin_skills.rglob("*") if p.is_file())
+        self.assertEqual(root_files, plugin_files)
+        for relative in root_files:
+            with self.subTest(file=str(relative)):
+                self.assertEqual(
+                    (root_skills / relative).read_bytes(),
+                    (plugin_skills / relative).read_bytes(),
+                )
+
+    def test_claude_plugin_has_only_directory_allowed_files(self):
+        # Unverified publishers may only ship Markdown, text, JSON, YAML and
+        # PNG/JPEG/GIF/WebP/ICO images; no scripts, no #! files, no NUL bytes.
+        allowed = {".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"}
+        images = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"}
+        for path in sorted((REPO_ROOT / CLAUDE_PLUGIN).rglob("*")):
+            if not path.is_file():
+                continue
+            relative = path.relative_to(REPO_ROOT)
+            with self.subTest(file=str(relative)):
+                is_license = path.name == "LICENSE"
+                self.assertTrue(is_license or path.suffix.lower() in allowed)
+                self.assertTrue(str(relative).isascii())
+                if path.suffix.lower() in images:
+                    continue
+                content = path.read_bytes()
+                self.assertFalse(content.startswith(b"#!"))
+                self.assertNotIn(b"\x00", content)
+                content.decode("utf-8")
+
+    def test_claude_mcp_entry_has_only_directory_allowed_fields(self):
+        allowed = {"type", "url", "headers", "timeout", "alwaysLoad", "oauth", "name", "title", "displayName", "description"}
+        servers = load(f"{CLAUDE_PLUGIN}/.mcp.json")["mcpServers"]
+        for name, entry in servers.items():
+            with self.subTest(server=name):
+                self.assertLessEqual(set(entry), allowed)
+                self.assertEqual(entry["url"], MCP_URL)
 
 
 if __name__ == "__main__":

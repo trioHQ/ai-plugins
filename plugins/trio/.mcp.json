@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "trio": {
+      "type": "http",
+      "url": "https://mcp.trio.com.br/mcp"
+    }
+  }
+}
