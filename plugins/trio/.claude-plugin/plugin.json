@@ -8,7 +8,11 @@
     "url": "https://www.trio.com.br"
   },
   "homepage": "https://trio.com.br/mcp",
+  "icon": "./assets/logo-512.png",
+  "documentationUrl": "https://docs.trio.com.br",
+  "supportUrl": "https://suporte.trio.com.br/",
   "privacyPolicyUrl": "https://www.trio.com.br/legal/politica-de-privacidade",
+  "termsOfServiceUrl": "https://www.trio.com.br/legal/termos-de-conta",
   "repository": "https://github.com/triohq/ai-plugins",
   "license": "MIT",
   "keywords": [
